@@ -61,7 +61,7 @@ class TorchElasticEnvironment(ClusterEnvironment):
     @staticmethod
     def detect() -> bool:
         """Returns ``True`` if the current process was launched using the torchelastic command."""
-        if _TORCH_GREATER_EQUAL_1_9_1:
+        if _TORCH_GREATER_EQUAL_1_9_1 and torch.distributed.is_available():
             return torch.distributed.is_torchelastic_launched()
         required_env_vars = {"RANK", "GROUP_RANK", "LOCAL_RANK", "LOCAL_WORLD_SIZE"}
         return required_env_vars.issubset(os.environ.keys())
